@@ -26,11 +26,12 @@ module.exports.getstats = (event, context, callback) => {
     .then(response => {
       // Get the ID of yesterday's stats and delete from table
       const statsToDelete = response.Items[0] ? response.Items[0].statId : null;
+      console.log(statsToDelete);
       if (statsToDelete) {
         return dynamo.delete({
           TableName: process.env.STATS_TABLE,
           Key: {
-            listingId: statsToDelete
+            statId: statsToDelete
           }
         }).promise();
       } else return;
